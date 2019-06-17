@@ -1,0 +1,120 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="row">
+  <div class="col m12">
+    <h4 class="center-align">
+      {{title}}
+    </h4>
+  </div>
+  <div *ngIf="isLoggedIn" class="col m12">
+    <div class="row myContainers">
+      <div class="col m3">
+        <div class="row">
+          <div class="col m8 center-align">
+              <b>Recent chat list</b>
+          </div>
+          <div class="col m4 center-align">
+              <a class="btn-floating btn waves-effect waves-light red" (click)="newGroupTab()"><i class="material-icons">add</i></a>
+          </div>
+        </div>
+        <div *ngIf="showCreateGroup" class="row">
+          <div class="col m12">
+              <input [(ngModel)]="new_chat_name" placeholder="Enter chat name" id="chat_name" type="text" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="col m12 userDiv">
+              <form>
+                  <ul class="collection">
+                      <li class="collection-item" *ngFor="let user of allUsers">
+                          <p>
+                              <input id="checkBox_{{user.user_name}}" type="checkbox" (click)="addUserToSelect(user.user_name)" />
+                              <label for="checkBox_{{user.user_name}}">
+                                  {{user.user_name}}
+                              </label>
+                          </p>
+                      </li>
+                    </ul>
+              </form>
+          </div>
+          <div class="col m6">
+              <a class="btn waves-effect waves-light yellow" (click)="newGroupTab()">Cancel</a>
+          </div>
+          <div class="col m6">
+              <a class="btn waves-effect waves-light teal" (click)="createChat()">Create</a>
+          </div>
+        </div>
+        <div *ngIf="!showCreateGroup" class="row">
+          <div class="col m12">
+              <ul class="collection">
+                <li class="collection-item" *ngFor="let chat of chats;let i = index">
+                  <label>
+                      <span><b>{{chat.name}}</b></span>
+                      <i class="material-icons right cursorPointer" (click)="openChat(i)">arrow_forward</i>
+                      <!-- <a class="right btn-floating btn-small waves-effect waves-light blue accent-3" (click)="openChat(i)">
+                        <i class="material-icons" >arrow_forward</i>
+                      </a> -->
+                  </label>
+                </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col m7 z-depth-2 messageDiv">
+        <div class="row">
+          <div class="col m3">
+            <b>{{open_chat}}</b>
+          </div>
+          <div class="col m9">
+          </div>
+        </div>
+        <div class="row">
+            <form class="col m12" (ngSubmit) = "sendMessage()">
+              <div class="row">
+                <div class="input-field col s10">
+                    <input type="text" id="textarea1" [(ngModel)]="message"  autocomplete="off" [ngModelOptions]="{standalone: true}">
+                    <label for="textarea1"></label>
+                </div>
+                <div class="col s2">
+                    <button class="waves-effect waves-light btn" type="submit"><i class="material-icons" >send</i></button>
+                </div>
+              </div>
+            </form>
+            <ul class="collection col m12">
+              <li *ngFor="let message of messageList;let i= index" class="collection-item">
+                <span class="title"><b>{{message.user.user_name}}</b></span>
+                <p>{{message.text}}</p>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col m2">
+        <div class="row">
+          <div class="col m12 center-align">
+              <b>Current users</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col m12">
+              <ul class="collection">
+                <li class="collection-item" *ngFor="let user of currentUsers">
+                  {{user}}
+                </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form *ngIf="!isLoggedIn" class="col m12">
+      <div class="row">
+        <div class="input-field col m6 offset-m3">
+          <input [(ngModel)]="user_name" placeholder="Enter user_name" id="user_name" type="text" [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col m6 offset-m3">
+          <a class="waves-effect waves-light btn" (click)="login()">login</a>
+        </div>
+      </div>
+    </form>
+
+</div>
